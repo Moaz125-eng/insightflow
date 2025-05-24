@@ -25,6 +25,10 @@ builder.Services.AddSingleton(settings);
 builder.Services.AddInsightFlowInfrastructure(settings);
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 52_428_800;
+});
 
 var app = builder.Build();
 
