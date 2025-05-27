@@ -1,6 +1,7 @@
 using InsightFlow.Core.Abstractions;
 using InsightFlow.Core.Configuration;
 using InsightFlow.Core.Services;
+using InsightFlow.Infrastructure.Extraction;
 using InsightFlow.Infrastructure.Persistence;
 using InsightFlow.Infrastructure.Storage;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDocumentRepository, InMemoryDocumentRepository>();
         services.AddSingleton<IDocumentStorage, LocalDocumentStorage>();
         services.AddSingleton<IDocumentUploadService, DocumentUploadService>();
+        services.AddSingleton<OcrService>();
+        services.AddSingleton<ChunkingService>();
+        services.AddSingleton<ITextExtractionService, TextExtractionService>();
         return services;
     }
 }
