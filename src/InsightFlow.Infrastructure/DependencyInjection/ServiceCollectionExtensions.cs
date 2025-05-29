@@ -1,6 +1,7 @@
 using InsightFlow.Core.Abstractions;
 using InsightFlow.Core.Configuration;
 using InsightFlow.Core.Services;
+using InsightFlow.Infrastructure.Embeddings;
 using InsightFlow.Infrastructure.Extraction;
 using InsightFlow.Infrastructure.Persistence;
 using InsightFlow.Infrastructure.Storage;
@@ -21,6 +22,14 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<OcrService>();
         services.AddSingleton<ChunkingService>();
         services.AddSingleton<ITextExtractionService, TextExtractionService>();
+        services.AddSingleton<EmbeddingCache>(sp =>
+        {
+            var settings = sp.GetRequiredService<AppSettings>();
+            var root = Path.GetDirectoryName(settings.DatabasePath) ?? "./data";
+            return new EmbeddingCache(root);
+        });
+        services.AddSingleton<OnnxEmbeddingRuntime>();
+        services.AddSingleton<IEmbeddingService, EmbeddingService>();
         return services;
     }
 }
