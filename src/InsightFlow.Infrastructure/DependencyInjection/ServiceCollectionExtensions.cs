@@ -3,6 +3,7 @@ using InsightFlow.Core.Configuration;
 using InsightFlow.Core.Services;
 using InsightFlow.Infrastructure.Embeddings;
 using InsightFlow.Infrastructure.Search;
+using InsightFlow.Infrastructure.Summarization;
 using InsightFlow.Infrastructure.Extraction;
 using InsightFlow.Infrastructure.Persistence;
 using InsightFlow.Infrastructure.Storage;
@@ -32,6 +33,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<OnnxEmbeddingRuntime>();
         services.AddSingleton<IEmbeddingService, EmbeddingService>();
         services.AddSingleton<IVectorSearchService, VectorSearchService>();
+        services.AddSingleton<ISummarizationService, SummarizationService>();
         return services;
     }
 }
