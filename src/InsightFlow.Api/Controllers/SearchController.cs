@@ -1,11 +1,13 @@
 using InsightFlow.Core.Abstractions;
 using InsightFlow.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsightFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/search")]
+[Authorize]
 public sealed class SearchController : ControllerBase
 {
     private readonly IVectorSearchService _searchService;

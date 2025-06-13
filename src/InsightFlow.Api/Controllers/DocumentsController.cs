@@ -1,11 +1,13 @@
 using InsightFlow.Core.Abstractions;
 using InsightFlow.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsightFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/documents")]
+[Authorize(Policy = "AnalystOrAdmin")]
 public sealed class DocumentsController : ControllerBase
 {
     private readonly IDocumentUploadService _uploadService;
