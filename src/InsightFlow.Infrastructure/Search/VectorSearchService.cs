@@ -9,16 +9,19 @@ public sealed class VectorSearchService : IVectorSearchService
     private readonly IEmbeddingService _embeddingService;
     private readonly ITextExtractionService _extractionService;
     private readonly OnnxEmbeddingRuntime _runtime;
+    private readonly Analytics.AnalyticsStore? _analyticsStore;
     private readonly VectorIndex _index = new();
 
     public VectorSearchService(
         IEmbeddingService embeddingService,
         ITextExtractionService extractionService,
-        OnnxEmbeddingRuntime runtime)
+        OnnxEmbeddingRuntime runtime,
+        Analytics.AnalyticsStore analyticsStore)
     {
         _embeddingService = embeddingService;
         _extractionService = extractionService;
         _runtime = runtime;
+        _analyticsStore = analyticsStore;
     }
 
     public async Task IndexDocumentAsync(Guid documentId, CancellationToken cancellationToken = default)
@@ -44,6 +47,7 @@ public sealed class VectorSearchService : IVectorSearchService
         SearchQuery query,
         CancellationToken cancellationToken = default)
     {
+        _analyticsStore?.RecordSearch();
         var queryVector = _runtime.Encode(query.Text);
         var candidates = new List<SearchResult>();
 
