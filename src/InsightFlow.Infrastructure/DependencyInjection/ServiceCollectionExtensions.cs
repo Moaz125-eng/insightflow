@@ -4,6 +4,7 @@ using InsightFlow.Core.Services;
 using InsightFlow.Infrastructure.Embeddings;
 using InsightFlow.Infrastructure.Search;
 using InsightFlow.Infrastructure.Analytics;
+using InsightFlow.Infrastructure.Export;
 using InsightFlow.Infrastructure.Background;
 using InsightFlow.Infrastructure.Qa;
 using InsightFlow.Infrastructure.Summarization;
@@ -41,6 +42,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IQuestionAnsweringService, QuestionAnsweringService>();
         services.AddSingleton<AnalyticsStore>();
         services.AddSingleton<IAnalyticsService, AnalyticsService>();
+        services.AddSingleton<IExportService, ExportService>();
         services.AddSingleton<IBackgroundJobQueue, ChannelJobQueue>();
         services.AddSingleton<BackgroundJobProcessor>();
         services.AddHostedService<BackgroundWorker>();
