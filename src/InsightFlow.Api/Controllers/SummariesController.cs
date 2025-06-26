@@ -1,11 +1,13 @@
 using InsightFlow.Core.Abstractions;
 using InsightFlow.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsightFlow.Api.Controllers;
 
 [ApiController]
 [Route("api/documents/{documentId:guid}/summary")]
+[Authorize]
 public sealed class SummariesController : ControllerBase
 {
     private readonly ISummarizationService _summarizationService;
