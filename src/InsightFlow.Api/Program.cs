@@ -65,6 +65,12 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(optio
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<InsightFlow.Infrastructure.Persistence.DatabaseInitializer>();
+    initializer.Initialize();
+}
+
 app.UseSerilogRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();

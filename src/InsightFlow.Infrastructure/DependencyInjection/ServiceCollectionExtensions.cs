@@ -22,7 +22,9 @@ public static class ServiceCollectionExtensions
         AppSettings settings)
     {
         services.AddSingleton(settings);
-        services.AddSingleton<IDocumentRepository, InMemoryDocumentRepository>();
+        services.AddSingleton<SqliteConnectionFactory>();
+        services.AddSingleton<DatabaseInitializer>();
+        services.AddSingleton<IDocumentRepository, SqliteDocumentRepository>();
         services.AddSingleton<IDocumentStorage, LocalDocumentStorage>();
         services.AddSingleton<IDocumentUploadService, DocumentUploadService>();
         services.AddSingleton<OcrService>();
