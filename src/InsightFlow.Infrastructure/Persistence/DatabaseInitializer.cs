@@ -28,6 +28,21 @@ CREATE TABLE IF NOT EXISTS documents (
 );
 
 CREATE INDEX IF NOT EXISTS idx_documents_uploaded_at ON documents(uploaded_at DESC);
+
+CREATE TABLE IF NOT EXISTS tags (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    color TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS document_tags (
+    document_id TEXT NOT NULL,
+    tag_id TEXT NOT NULL,
+    PRIMARY KEY (document_id, tag_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_document_tags_tag_id ON document_tags(tag_id);
 """;
         command.ExecuteNonQuery();
     }
