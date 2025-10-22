@@ -43,6 +43,23 @@ CREATE TABLE IF NOT EXISTS document_tags (
 );
 
 CREATE INDEX IF NOT EXISTS idx_document_tags_tag_id ON document_tags(tag_id);
+
+CREATE TABLE IF NOT EXISTS webhooks (
+    id TEXT PRIMARY KEY,
+    target_url TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    is_active INTEGER NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS webhook_deliveries (
+    subscription_id TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    payload_json TEXT NOT NULL,
+    status_code INTEGER NOT NULL,
+    succeeded INTEGER NOT NULL,
+    delivered_at TEXT NOT NULL
+);
 """;
         command.ExecuteNonQuery();
     }
