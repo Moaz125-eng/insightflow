@@ -9,15 +9,18 @@ public sealed class BackgroundWorker : BackgroundService
 {
     private readonly IBackgroundJobQueue _queue;
     private readonly BackgroundJobProcessor _processor;
+    private readonly IWebhookService _webhooks;
     private readonly ILogger<BackgroundWorker> _logger;
 
     public BackgroundWorker(
         IBackgroundJobQueue queue,
         BackgroundJobProcessor processor,
+        IWebhookService webhooks,
         ILogger<BackgroundWorker> logger)
     {
         _queue = queue;
         _processor = processor;
+        _webhooks = webhooks;
         _logger = logger;
     }
 
@@ -45,6 +48,7 @@ public sealed class BackgroundWorker : BackgroundService
                     CompletedAt = DateTimeOffset.UtcNow
                 };
                 await _queue.UpdateAsync(completed, stoppingToken);
+                await _webhooks.NotifyJobFinishedAsync(completed, stoppingToken);
             }
             catch (Exception ex)
             {
@@ -56,6 +60,7 @@ public sealed class BackgroundWorker : BackgroundService
                     CompletedAt = DateTimeOffset.UtcNow
                 };
                 await _queue.UpdateAsync(failed, stoppingToken);
+                await _webhooks.NotifyJobFinishedAsync(failed, stoppingToken);
             }
         }
     }

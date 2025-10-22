@@ -11,6 +11,7 @@ using InsightFlow.Infrastructure.Summarization;
 using InsightFlow.Infrastructure.Extraction;
 using InsightFlow.Infrastructure.Persistence;
 using InsightFlow.Infrastructure.Tags;
+using InsightFlow.Infrastructure.Webhooks;
 using InsightFlow.Infrastructure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDocumentRepository, SqliteDocumentRepository>();
         services.AddSingleton<SqliteTagRepository>();
         services.AddSingleton<ITagService, TagService>();
+        services.AddHttpClient("webhooks");
+        services.AddSingleton<SqliteWebhookStore>();
+        services.AddSingleton<WebhookDispatcher>();
+        services.AddSingleton<IWebhookService, WebhookService>();
         services.AddSingleton<IDocumentStorage, LocalDocumentStorage>();
         services.AddSingleton<IDocumentUploadService, DocumentUploadService>();
         services.AddSingleton<OcrService>();
