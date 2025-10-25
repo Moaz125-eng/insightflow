@@ -1,5 +1,6 @@
 using System.Text;
 using InsightFlow.Core.Configuration;
+using InsightFlow.Infrastructure.RateLimiting;
 using InsightFlow.Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +33,11 @@ var jwtSettings = new JwtSettings
 
 builder.Services.AddSingleton(settings);
 builder.Services.AddSingleton(jwtSettings);
+builder.Services.AddSingleton(new RateLimitSettings
+{
+    RequestsPerMinute = int.TryParse(builder.Configuration["RATE_LIMIT_PER_MINUTE"], out var perMinute) ? perMinute : 120,
+    UploadRequestsPerMinute = int.TryParse(builder.Configuration["UPLOAD_RATE_LIMIT_PER_MINUTE"], out var uploadLimit) ? uploadLimit : 20
+});
 builder.Services.AddInsightFlowInfrastructure(settings);
 builder.Services.AddInsightFlowAuth(jwtSettings);
 
@@ -72,6 +78,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseSerilogRequestLogging();
+app.UseMiddleware<RateLimitingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
