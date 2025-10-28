@@ -1,6 +1,7 @@
 using System.Text;
 using InsightFlow.Core.Configuration;
 using InsightFlow.Infrastructure.RateLimiting;
+using InsightFlow.Infrastructure.Audit;
 using InsightFlow.Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -81,6 +82,7 @@ app.UseSerilogRequestLogging();
 app.UseMiddleware<RateLimitingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<AuditLoggingMiddleware>();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
