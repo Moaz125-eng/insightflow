@@ -60,6 +60,18 @@ CREATE TABLE IF NOT EXISTS webhook_deliveries (
     succeeded INTEGER NOT NULL,
     delivered_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id TEXT PRIMARY KEY,
+    actor TEXT NOT NULL,
+    action TEXT NOT NULL,
+    resource TEXT NOT NULL,
+    method TEXT NOT NULL,
+    status_code INTEGER NOT NULL,
+    occurred_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_occurred_at ON audit_log(occurred_at DESC);
 """;
         command.ExecuteNonQuery();
     }

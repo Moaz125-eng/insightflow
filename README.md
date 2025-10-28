@@ -61,6 +61,9 @@ Use the returned bearer token for protected endpoints.
 | `POST /api/jobs` | Queue background indexing jobs |
 | `GET /api/analytics` | Dashboard metrics |
 | `GET /api/export/documents/{id}/pdf` | PDF report export |
+| `GET /api/tags` | List and assign document tags |
+| `POST /api/webhooks` | Register job completion webhooks |
+| `GET /api/audit` | Recent admin audit trail |
 
 ## Solution layout
 

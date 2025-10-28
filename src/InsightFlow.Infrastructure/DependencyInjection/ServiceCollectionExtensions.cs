@@ -13,6 +13,7 @@ using InsightFlow.Infrastructure.Persistence;
 using InsightFlow.Infrastructure.Tags;
 using InsightFlow.Infrastructure.Webhooks;
 using InsightFlow.Infrastructure.RateLimiting;
+using InsightFlow.Infrastructure.Audit;
 using InsightFlow.Infrastructure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,6 +36,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<WebhookDispatcher>();
         services.AddSingleton<IWebhookService, WebhookService>();
         services.AddSingleton<RateLimitCounter>();
+        services.AddSingleton<SqliteAuditStore>();
+        services.AddSingleton<IAuditService, AuditService>();
         services.AddSingleton<IDocumentStorage, LocalDocumentStorage>();
         services.AddSingleton<IDocumentUploadService, DocumentUploadService>();
         services.AddSingleton<OcrService>();
